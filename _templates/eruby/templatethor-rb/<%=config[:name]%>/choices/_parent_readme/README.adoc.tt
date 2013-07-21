@@ -1,0 +1,30 @@
+= <%=config[:parentcap]%>
+:description: README for <%=config[:parent]%>
+:hardbreaks:
+:linkcss:
+//:stylesheet!:
+
+////
+.adoc to .html: asciidoctor -n -a toc -a toclevels=2 foo.adoc
+////
+
+<%=config[:parentdescription]%>
+
+== Installation
+source code tarball download:
+    
+        # [aria2c --check-certificate=false | wget --no-check-certificate | curl -kOL]
+        FETCHCMD='aria2c --check-certificate=false'
+        $FETCHCMD https://<%=config[:repohost]%>/<%=config[:repoacct]%>/<%=config[:parent]%>/[get | archive]/master.zip
+
+version control repository clone:
+        
+        git clone https://<%=config[:repohost]%>/<%=config[:repoacct]%>/<%=config[:parent]%>.git
+
+== Author/Copyright
+Author: <%=config[:author]%> <<%=config[:email]%>>
+
+see sub-package's Author/Copyright
+
+== License
+see sub-package's License

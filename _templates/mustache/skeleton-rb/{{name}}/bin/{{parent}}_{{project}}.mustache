@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require '{{nesteddirs}}{{^nesteddirs}}introrb/util{{/nesteddirs}}'
+# exit {{parentcap}}{{^parentcap}}Introrb{{/parentcap}}{{joiner}}{{^joiner}}::{{/joiner}}{{projectcap}}{{^projectcap}}Util{{/projectcap}}::App.main({{parentcap}}{{^parentcap}}Introrb{{/parentcap}}{{joiner}}{{^joiner}}::{{/joiner}}{{projectcap}}{{^projectcap}}Util{{/projectcap}}::App.parse_cmdopts(ARGV))
+{{parentcap}}{{^parentcap}}Introrb{{/parentcap}}{{joiner}}{{^joiner}}::{{/joiner}}{{projectcap}}{{^projectcap}}Util{{/projectcap}}::Cli.start # (ARGV)

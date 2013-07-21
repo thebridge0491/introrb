@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require 'English'
+require 'thor'
+
+require '{{nesteddirs}}{{^nesteddirs}}introrb/util{{/nesteddirs}}/app'
+
+module {{parentcap}}{{^parentcap}}Introrb{{/parentcap}}; end
+module {{parentcap}}{{^parentcap}}Introrb{{/parentcap}}{{joiner}}{{^joiner}}::{{/joiner}}{{projectcap}}{{^projectcap}}Util{{/projectcap}}; end
+
+class {{parentcap}}{{^parentcap}}Introrb{{/parentcap}}{{joiner}}{{^joiner}}::{{/joiner}}{{projectcap}}{{^projectcap}}Util{{/projectcap}}::Cli < Thor
+  no_commands {
+  #
+  }
+  
+  desc 'main ARGS', 'Main method'
+  option :user, :default => 'World', :aliases => '-u'
+  def main(args = [])
+    {{parentcap}}{{^parentcap}}Introrb{{/parentcap}}::{{projectcap}}{{^projectcap}}Util{{/projectcap}}::App.main(options)
+  end
+end
+
+
+if __FILE__ == $PROGRAM_NAME
+  {{parentcap}}{{^parentcap}}Introrb{{/parentcap}}{{joiner}}{{^joiner}}::{{/joiner}}{{projectcap}}{{^projectcap}}Util{{/projectcap}}::Cli.start(ARGV)
+  exit 0
+end

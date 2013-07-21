@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'introrb/intro'
+# exit Introrb::Intro::App.main(Introrb::Intro::App.parse_cmdopts(ARGV))
+Introrb::Intro::Cli.start # (ARGV)

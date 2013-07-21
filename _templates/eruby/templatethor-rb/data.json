@@ -1,0 +1,46 @@
+{
+  "groupid": false,
+  "category": false,
+  "parent": "introrb",
+  "parentdescription": "Multi-package project Intro examples for Ruby.",
+  "project": "util",
+  "description": "Utilites sub-package for Ruby Intro examples project.",
+  "version": "0.1.0",
+  "separator": "-",
+  "joiner": "::",
+  "parentregex": "^[a-z][-a-z0-9]+$",
+  "projectregex": "^[a-z][a-z0-9]+$",
+  
+  "repohost": "bitbucket.org",
+  "repoacct": "imcomputer",
+  "date": "2013-07-20",
+  
+  "author": "imcomputer",
+  "email": "imcomputer-codelab@yahoo.com",
+  "year": "2013",
+  
+  "name": "introrb-util",
+  "namespace": "introrb.util",
+  "nesteddirs": "introrb/util",
+  "parentcap": "Introrb",
+  "projectcap": "Util",
+  
+  "readmeext": ".rst",
+  "license": "Apache-2.0",
+  "buildtool": "rake",
+  "testfrwk": "rspec",
+  "executable": "no",
+  "ffilib": "none",
+  
+  "skeletondir": "Templates/eruby/templatethor-rb",
+  
+  "_choices": {
+    "readmeext": [".rst", ".md", ".adoc"],
+    "license": ["Apache-2.0", "MIT", "BSD-3-Clause", "GPL-3.0+", "ISC", 
+      "Unlicense", "Not open source"],
+    "buildtool": ["rake", "make"],
+    "testfrwk": ["rspec", "minitest", "minitest-spec"],
+    "executable": ["no", "yes"],
+    "ffilib": ["none", "ffi", "swig"]
+  }
+}

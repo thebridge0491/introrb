@@ -1,0 +1,62 @@
+{{parentcap}}{{^parentcap}}Introrb{{/parentcap}}{{joiner}}{{^joiner}}::{{/joiner}}{{modulecap}}{{^modulecap}}Util{{/modulecap}}
+===========================================
+.. .rst to .html: rst2html5 foo.rst > foo.html
+..                pandoc -s -f rst -t html5 -o foo.html foo.rst
+
+{{description}}{{^description}}Utilities sub-package for Ruby Intro examples project.{{/description}}
+
+Installation
+------------
+source code tarball download:
+    
+        # [aria2c --check-certificate=false | wget --no-check-certificate | curl -kOL]
+        
+        FETCHCMD='aria2c --check-certificate=false'
+        
+        $FETCHCMD https://{{repohost}}{{^repohost}}bitbucket.org{{/repohost}}/{{repoacct}}{{^repoacct}}imcomputer{{/repoacct}}/{{parent}}{{^parent}}introrb{{/parent}}/[get | archive]/master.zip
+
+version control repository clone:
+        
+        git clone https://{{repohost}}{{^repohost}}bitbucket.org{{/repohost}}/{{repoacct}}{{^repoacct}}imcomputer{{/repoacct}}/{{parent}}{{^parent}}introrb{{/parent}}.git
+
+build example with make:
+cd <path> ; make [test | spec] gem
+
+make install
+
+build example with rake:
+cd <path> ; rake [test | spec] gem
+
+rake install
+
+Usage
+-----
+{{#executable}}
+        [env RSRC_PATH=<path>/resources] ruby -Ilib bin/{{parent}}{{^parent}}introrb{{/parent}}_{{project}}{{^project}}util{{/project}} [-h]
+{{/executable}}
+{{^executable}}
+        ruby -Ilib bin/console
+        
+        > {{projectcap}}{{^projectcap}}Util{{/projectcap}} = {{parentcap}}{{^parentcap}}Introrb{{/parentcap}}::{{projectcap}}{{^projectcap}}Util{{/projectcap}}
+        
+        > arr1, arr2 = [0, 1, 2], [10, 20, 30]
+        
+        > arr_prod = {{projectcap}}{{^projectcap}}Util{{/projectcap}}.cartesian_prod(arr1, arr2)
+        
+or
+        require '{{nesteddirs}}{{^nesteddirs}}introrb/util{{/nesteddirs}}'
+        
+        ...
+        
+        arr1, arr2 = [0, 1, 2], [10, 20, 30]
+        
+        arr_prod = {{projectcap}}{{^projectcap}}Util{{/projectcap}}.cartesian_prod(arr1, arr2)
+{{/executable}}
+
+Author/Copyright
+----------------
+Copyright (c) {{year}}{{^year}}2013{{/year}} by {{author}}{{^author}}{{repoacct}}{{^repoacct}}imcomputer{{/repoacct}}{{/author}} <{{email}}{{^email}}{{repoacct}}{{^repoacct}}imcomputer{{/repoacct}}-codelab@yahoo.com{{/email}}>
+
+License
+-------
+Licensed under the {{license}}{{^license}}Apache-2.0{{/license}} License. See LICENSE for details.

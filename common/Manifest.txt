@@ -1,0 +1,15 @@
+Manifest.txt
+bin/console
+bin/setup
+lib/introrb/util.rb
+lib/introrb/util/version.rb
+lib/introrb/util/lib.rb
+lib/introrb/util/person.rb
+resources/greet.txt
+resources/log4r.xml
+resources/log4r.yaml
+resources/prac.conf
+resources/prac.json
+resources/prac.toml
+resources/prac.xml
+resources/prac.yaml

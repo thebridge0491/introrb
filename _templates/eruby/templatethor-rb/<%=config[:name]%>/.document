@@ -1,0 +1,6 @@
+lib/**/*.rb
+ext/**/*.{c,rb}
+bin/*
+-
+LICENSE
+README*

@@ -1,0 +1,39 @@
+= <%=config[:name]%>
+
+home  :: https://www.<%=config[:repohost]%>/<%=config[:repoacct]%>/<%=config[:parent]%>/wiki/index.html
+code  :: https://www.<%=config[:repohost]%>/<%=config[:repoacct]%>/<%=config[:parent]%>
+rdoc  :: https://www.<%=config[:repohost]%>/<%=config[:repoacct]%>/<%=config[:parent]%>/docs
+bugs  :: https://www.<%=config[:repohost]%>/<%=config[:repoacct]%>/<%=config[:parent]%>/issues
+... etc ...
+
+== DESCRIPTION:
+
+FIX (describe your package)
+
+== FEATURES/PROBLEMS:
+
+* FIX (list of features or problems)
+
+== SYNOPSIS:
+
+  FIX (code sample of usage)
+
+== REQUIREMENTS:
+
+* FIX (list of requirements)
+
+== INSTALL:
+
+* FIX (sudo gem install, anything else)
+
+== DEVELOPERS:
+
+After checking out the source, run:
+
+  $ rake newb
+
+This task will install any missing dependencies, run the tests/specs,
+and generate the RDoc.
+
+== License
+Licensed under the <%=config[:license]%> License. See LICENSE for details.

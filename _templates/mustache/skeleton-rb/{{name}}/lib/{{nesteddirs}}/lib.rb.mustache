@@ -1,0 +1,28 @@
+module {{parentcap}}{{^parentcap}}Introrb{{/parentcap}}; end
+
+module {{parentcap}}{{^parentcap}}Introrb{{/parentcap}}{{joiner}}{{^joiner}}::{{/joiner}}{{projectcap}}{{^projectcap}}Util{{/projectcap}}
+  extend self
+  
+  def in_epsilon(a, b, tolerance = 0.001)
+    delta = tolerance.abs
+    # (a - delta) <= b && (a + delta) >= b
+    !((a + delta) < b) && !((b + delta) < a)
+  end
+  
+  def cartesian_prod(arr1, arr2)
+    # arr1.product(arr2).select{|e| true}
+    arr1.flat_map{|x| arr2.map{|y| [x, y]}}.select{|e| true}
+  end
+  
+  def lib_main(args = [])
+    arr1, arr2 = [0, 1, 2], [10, 20, 30]
+    puts "cartesian_prod(#{arr1}, #{arr2}): #{cartesian_prod(arr1, arr2)}"
+    0
+  end
+end
+
+
+if __FILE__ == $PROGRAM_NAME
+  {{parentcap}}{{^parentcap}}Introrb{{/parentcap}}{{joiner}}{{^joiner}}::{{/joiner}}{{projectcap}}{{^projectcap}}Util{{/projectcap}}.lib_main(ARGV)
+  exit 0
+end

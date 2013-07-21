@@ -1,0 +1,47 @@
+# Multi-package project Makefile script.
+.POSIX:
+help:
+
+#MAKE = make # (GNU make variants: make (Linux) gmake (FreeBSD)
+
+parent = <%=config[:parent]%>
+SUBDIRS = common app
+
+.PHONY: help clean clobber compile spec
+help: $(SUBDIRS)
+	-for dirX in $^ ; do $(MAKE) -C $$dirX $@ ; done
+	@echo "##### Top-level multiproject: $(parent) #####"
+	@echo "Usage: $(MAKE) [SUBDIRS="$(SUBDIRS)"] [target]"
+compile spec: $(SUBDIRS)
+	-for dirX in $^ ; do $(MAKE) -C $$dirX $@ ; done
+clean: $(SUBDIRS)
+	-for dirX in $^ ; do $(MAKE) -C $$dirX $@ ; done
+	-rm -fr core* *~ .*~ build/* *.log */*.log
+clobber: $(SUBDIRS)
+	-for dirX in $^ ; do $(MAKE) -C $$dirX $@ ; done
+
+#----------------------------------------
+FMTS ?= tar.gz
+distdir = $(parent)-0.1.0
+
+.PHONY: gem uninstall install dist package rubocop yard
+dist package: $(SUBDIRS)
+	-@mkdir -p pkg/$(distdir) ; cp -f exclude.lst pkg/
+#	#-zip -9 -q --exclude @exclude.lst -r - . | unzip -od pkg/$(distdir) -
+	-tar --format=posix --dereference --exclude-from=exclude.lst -cf - . | tar -xpf - -C pkg/$(distdir)
+	
+	-@for fmt in `echo $(FMTS) | tr ',' ' '` ; do \
+		case $$fmt in \
+			zip) echo "### pkg/$(distdir).zip ###" ; \
+				rm -f pkg/$(distdir).zip ; \
+				(cd pkg ; zip -9 -q -r $(distdir).zip $(distdir)) ;; \
+			*) tarext=`echo $$fmt | grep -e '^tar$$' -e '^tar.xz$$' -e '^tar.bz2$$' || echo tar.gz` ; \
+				echo "### pkg/$(distdir).$$tarext ###" ; \
+				rm -f pkg/$(distdir).$$tarext ; \
+				(cd pkg ; tar --posix -L -caf $(distdir).$$tarext $(distdir)) ;; \
+		esac \
+	done
+	-@rm -r pkg/$(distdir)
+	-for dirX in $^ ; do $(MAKE) -C $$dirX $@ ; done
+gem uninstall install rubocop yard: $(SUBDIRS)
+	-for dirX in $^ ; do $(MAKE) -C $$dirX $@ ; done

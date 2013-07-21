@@ -1,0 +1,55 @@
+= <%=config[:parentcap]%><%=config[:joiner]%><%=config[:projectcap]%>
+:author: <%=config[:author]%>
+:email: <<%=config[:email]%>>
+:revnumber: <%=config[:version]%>
+:description: README for <%=config[:name]%>
+:hardbreaks:
+:linkcss:
+//:stylesheet!:
+
+////
+.adoc to .html: asciidoctor -n -a toc -a toclevels=2 foo.adoc
+////
+
+<%=config[:description]%>
+
+== Installation
+source code tarball download:
+    
+        # [aria2c --check-certificate=false | wget --no-check-certificate | curl -kOL]
+        FETCHCMD='aria2c --check-certificate=false'
+        $FETCHCMD https://<%=config[:repohost]%>/<%=config[:repoacct]%>/<%=config[:parent]%>/[get | archive]/master.zip
+
+version control repository clone:
+        
+        git clone https://<%=config[:repohost]%>/<%=config[:repoacct]%>/<%=config[:parent]%>.git
+
+build example with make:
+cd <path> ; make [test | spec] gem
+make install
+
+build example with rake:
+cd <path> ; rake [test | spec] gem
+rake install
+
+== Usage
+<% if 'yes' == config[:executable] %>
+        [env RSRC_PATH=<path>/resources] ruby -Ilib bin/<%=config[:parent]%>_<%=config[:project]%> [-h]
+<% else %>
+        ruby -Ilib bin/console
+        > <%=config[:projectcap]%> = <%=config[:parentcap]%><%=config[:joiner]%><%=config[:projectcap]%>
+        > arr1, arr2 = [0, 1, 2], [10, 20, 30]
+        > arr_prod = <%=config[:projectcap]%>.cartesian_prod(arr1, arr2)
+        
+or
+        require '<%=config[:nesteddirs]%>'
+        ...
+        arr1, arr2 = [0, 1, 2], [10, 20, 30]
+        arr_prod = <%=config[:projectcap]%>.cartesian_prod(arr1, arr2)
+<% end %>
+
+== Author/Copyright
+Copyright (c) <%=config[:year]%> by <%=config[:author]%> <<%=config[:email]%>>
+
+== License
+Licensed under the <%=config[:license]%> License. See LICENSE for details.

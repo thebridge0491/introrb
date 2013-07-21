@@ -1,0 +1,86 @@
+.POSIX:
+.SUFFIXES:
+
+prefix ?= /usr/local
+
+# Single package Makefile script.
+.PHONY: help clean clobber compile gem spec dist package rubocop yard
+help:
+
+pkg = <%=config[:project]%>
+parent = <%=config[:parent]%>
+proj = $(parent)-$(pkg)
+
+version = <%=config[:version]%>
+
+gempaths = $(shell gem environment gempath):
+PATH := $(PATH):$(shell echo $(gempaths) | sed 's|:|/bin/:|g')
+
+RSPEC = GEM_PATH=$(gempaths) GEM_HOME=$(gempaths) rspec
+RUBOCOP = GEM_PATH=$(gempaths) GEM_HOME=$(gempaths) rubocop
+YARDOC = GEM_PATH=$(gempaths) GEM_HOME=$(gempaths) yardoc
+
+FMTS ?= tar.gz
+distdir = $(proj)-$(version)
+
+help: ## help
+	@echo "##### subproject: $(proj) #####"
+	@echo "Usage: $(MAKE) [target] -- some valid targets:"
+#	-@for fileX in $(MAKEFILE_LIST) `if [ -z "$(MAKEFILE_LIST)" ] ; then echo Makefile ; fi` ; do \
+#		grep -ve '^[A-Z]' $$fileX | awk '/^[^.%][-A-Za-z0-9_]+[ ]*:.*$$/ { print "...", substr($$1, 1, length($$1)) }' | sort ; \
+#	done
+	-@for fileX in $(MAKEFILE_LIST) `if [ -z "$(MAKEFILE_LIST)" ] ; then echo Makefile ; fi` ; do \
+		grep -E '^[ a-zA-Z_-]+:.*?## .*$$' $$fileX | \
+		awk 'BEGIN {FS = ":.*?## "}; {printf "%-25s%s\n", $$1, $$2}' ; \
+	done
+clean: ## clean build artifacts
+	-rm -rf **/*.o *.log **/.coverage
+clobber: ## clobber build artifacts
+	-rm -rf build/* build/.??*
+#compile: ## [prefix=??] compile extensions
+#	-swig -ruby -v -I$(prefix)/include -outdir ext/classic_c ext/classic_c/classic_c.i
+#	-(cd ext/classic_c ; ruby extconf.rb --srcdir=. --with-classic_c-dir=$(prefix) ; $(MAKE))
+#	-cp ext/classic_c/classic_c.so lib/<%=config[:nesteddirs]%>/
+#test: $(shell find test -name "*_test.rb") ## [COV=] [TOPTS=""] run test
+##	export [DY]LD_LIBRARY_PATH=. # ([da|ba|z]sh Linux)
+##	setenv [DY]LD_LIBRARY_PATH . # (tcsh FreeBSD)
+#	-LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):lib ruby -Ilib:test $^ $(TOPTS)
+spec: $(shell find spec -name "*_spec.rb") ## [COV=] [TOPTS=""] run spec
+#	export [DY]LD_LIBRARY_PATH=. # ([da|ba|z]sh Linux)
+#	setenv [DY]LD_LIBRARY_PATH . # (tcsh FreeBSD)
+#	-LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):lib ruby -Ilib:spec -rrspec/autorun $^ $(TOPTS)
+	-LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):lib $(RSPEC) -Ilib:spec $(TOPTS)
+gem: ## build gem
+	-mkdir -p pkg ; gem build -o pkg/$(distdir).gem $(proj).gemspec
+uninstall install: ## [un]install artifacts
+	-@if [ "uninstall" = "$@" ] ; then \
+		gem uninstall $(proj) ; \
+	else \
+		gem install --user-install pkg/$(distdir).gem ; \
+		gem list $(proj) ; sleep 3 ; \
+	fi
+dist package: ## [FMTS="tar.gz"] archive source code
+	-@mkdir -p pkg/$(distdir) ; cp -f exclude.lst pkg/
+#	#-zip -9 -q --exclude @exclude.lst -r - . | unzip -od pkg/$(distdir) -
+	-tar --format=posix --dereference --exclude-from=exclude.lst -cf - . | tar -xpf - -C pkg/$(distdir)
+	
+	-@for fmt in `echo $(FMTS) | tr ',' ' '` ; do \
+		case $$fmt in \
+			zip) echo "### pkg/$(distdir).zip ###" ; \
+				rm -f pkg/$(distdir).zip ; \
+				(cd pkg ; zip -9 -q -r $(distdir).zip $(distdir)) ;; \
+			*) tarext=`echo $$fmt | grep -e '^tar$$' -e '^tar.xz$$' -e '^tar.bz2$$' || echo tar.gz` ; \
+				echo "### pkg/$(distdir).$$tarext ###" ; \
+				rm -f pkg/$(distdir).$$tarext ; \
+				(cd pkg ; tar --posix -L -caf $(distdir).$$tarext $(distdir)) ;; \
+		esac \
+	done
+	-@rm -r pkg/$(distdir)
+rubocop: ## [OPTS=] rubocop check code
+	-$(RUBOCOP) --cache false -o build/rubocop_rpt.txt $(OPTS) lib test
+#rdoc: ## [OPTS=] rdoc generate documentation
+#	-rm -fr build/doc
+#	-rdoc -o build/doc $(OPTS)
+yard: ## [OPTS=] yardoc generate documentation
+	-rm -fr build/doc ; mkdir -p build/doc
+	-$(YARDOC) -o build/doc $(OPTS)

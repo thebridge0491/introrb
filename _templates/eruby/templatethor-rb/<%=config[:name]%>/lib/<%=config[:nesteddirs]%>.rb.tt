@@ -1,0 +1,6 @@
+require '<%=config[:nesteddirs]%>/version'
+require '<%=config[:nesteddirs]%>/lib'
+require '<%=config[:nesteddirs]%>/person'
+# require '<%=config[:nesteddirs]%>/classic'
+<% if 'yes' == config[:executable] %>require '<%=config[:nesteddirs]%>/app'
+require '<%=config[:nesteddirs]%>/cli'<% end %>

@@ -1,0 +1,28 @@
+Manifest.txt
+bin/console
+bin/setup
+lib/{{nesteddirs}}{{^nesteddirs}}introrb/util{{/nesteddirs}}.rb
+lib/{{nesteddirs}}{{^nesteddirs}}introrb/util{{/nesteddirs}}/version.rb
+lib/{{nesteddirs}}{{^nesteddirs}}introrb/util{{/nesteddirs}}/lib.rb
+lib/{{nesteddirs}}{{^nesteddirs}}introrb/util{{/nesteddirs}}/person.rb{{#executable}}
+lib/{{nesteddirs}}{{^nesteddirs}}introrb/util{{/nesteddirs}}/app.rb
+lib/{{nesteddirs}}{{^nesteddirs}}introrb/util{{/nesteddirs}}/cli.rb{{/executable}}
+{{!
+lib/introrb/util/classic.rb
+lib/introrb/util/classic_c.so
+ext/classic_c/classic_c.i
+}}
+resources/greet.txt
+resources/log4r.xml
+resources/log4r.yaml
+resources/prac.conf
+resources/prac.json
+resources/prac.toml
+resources/prac.xml
+resources/prac.yaml
+{{!<%=
+  rsrcfiles = Dir.glob('resources/*', base: name)
+  #rsrcfiles.map{|f| "#{f.inspect}"}.sort.uniq.join("\n")
+  #rsrcfiles.reduce("") {|acc, f| acc + f + "\n"}
+  rsrcfiles.sort.join("\n")
+%>}}

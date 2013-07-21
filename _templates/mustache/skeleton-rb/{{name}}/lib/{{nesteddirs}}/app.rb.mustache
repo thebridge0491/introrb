@@ -1,0 +1,113 @@
+#!/usr/bin/env ruby
+
+require 'English'
+require 'psych'
+require 'log4r'
+require 'log4r/configurator'
+require 'json'
+require 'toml'
+require 'inifile'
+require 'parseconfig'
+
+Logger = Log4r::Logger
+
+module {{parentcap}}{{^parentcap}}Introrb{{/parentcap}}; end
+module {{parentcap}}{{^parentcap}}Introrb{{/parentcap}}{{joiner}}{{^joiner}}::{{/joiner}}{{projectcap}}{{^projectcap}}Util{{/projectcap}}; end
+
+# -- run w/out compile --
+# ruby -Ilib script[.rb] [arg1 argN]
+# 
+# -- run REPL, import script, & run --
+# irb -Ilib
+# > require 'script'
+# > Script.main([arg1, argN])
+# 
+# -- help/info tools in REPL --
+# help
+
+module {{parentcap}}{{^parentcap}}Introrb{{/parentcap}}{{joiner}}{{^joiner}}::{{/joiner}}{{projectcap}}{{^projectcap}}Util{{/projectcap}}::App
+  extend self
+  
+  def run_{{project}}{{^project}}util{{/project}}(name)
+    rexp = /^quit$/i # Regexp.new('^quit$', Regexp::IGNORECASE)
+    printf("%s match: %s to %s\n", (rexp.match(name) ? 'Good' : 'Does not'),
+      name, rexp.inspect)
+  end
+
+  def parse_cmdopts(args = [])
+    require 'optparse'
+    
+    opts_hash = {'user': 'World'}
+    usage_str = <<EOF
+Usage: #{$PROGRAM_NAME} [OPTIONS]
+
+Example: #{$PROGRAM_NAME} -u World
+EOF
+    opts_parser = OptionParser.new {|opts|
+      opts.separator nil
+      opts.separator 'Specific options:'
+      
+      opts.on('-u USER', '--user USER', String, 'User name') {
+        |user| opts_hash[:user] = user}
+      
+      opts.banner = usage_str
+      opts.separator nil
+      opts.separator 'Common options:'
+      
+      opts.on_tail('-h', 'help message') {
+        $stderr.print opts
+        exit 0 }
+    }.parse!(args) or raise
+    # raise usage_str unless 0 == args.size
+    opts_hash
+  end
+  
+  def main(opts_hash = {})
+    rsrc_path = ENV.fetch('RSRC_PATH', 'resources')
+    
+    begin
+      Log4r::Configurator.load_xml_file("#{rsrc_path}/log4r.xml")
+    rescue StandardError => e
+      Logger.new('root1')
+      Logger.root.level = Log4r::INFO
+      Log4r::StderrOutputter.new 'console'
+      Logger['root1'].add('console')
+    end
+    
+    keys2sym = proc {|h| h.map{|k, v|
+      [k.to_sym, v.is_a?(Hash) ? keys2sym.call(v) : v]}.to_h}
+    
+    # cfg_ini = keys2sym.call IniFile.load("#{rsrc_path}/prac.conf")
+    cfg_ini = keys2sym.call ParseConfig.new("#{rsrc_path}/prac.conf").params
+    
+    cfg_json = keys2sym.call JSON.parse(File.read("#{rsrc_path}/prac.json"))
+    
+    cfg_yaml = keys2sym.call Psych.load(File.read("#{rsrc_path}/prac.yaml"))
+    
+    cfg_toml = keys2sym.call TOML.load(File.read("#{rsrc_path}/prac.toml"))
+    
+    tup_arr = [
+      [cfg_ini, cfg_ini[:default][:domain], cfg_ini[:user1][:name]],
+      [cfg_json, cfg_json[:domain], cfg_json[:user1][:name]],
+      [cfg_yaml, cfg_yaml[:domain], cfg_yaml[:user1][:name]],
+      [cfg_toml, cfg_toml[:domain], cfg_toml[:user1][:name]]
+    ]
+    
+    tup_arr.each{|t0, t1, t2|
+      puts "\nconfig: #{t0}"
+      puts "domain: #{t1}"
+      puts "user1Name: #{t2}"
+    }
+    puts ''
+    run_{{project}}{{^project}}util{{/project}}(opts_hash[:user])
+    
+    Logger['root1'].info 'exiting main'
+    0
+  end
+end
+
+
+if __FILE__ == $PROGRAM_NAME
+  App = {{parentcap}}{{^parentcap}}Introrb{{/parentcap}}{{joiner}}{{^joiner}}::{{/joiner}}{{projectcap}}{{^projectcap}}Util{{/projectcap}}::App
+  exit App.main(App.parse_cmdopts(ARGV))
+end

@@ -1,0 +1,5 @@
+module <%=config[:parentcap]%>; end
+
+module <%=config[:parentcap]%><%=config[:joiner]%><%=config[:projectcap]%>
+  VERSION = '<%=config[:version]%>'
+end

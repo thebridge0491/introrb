@@ -1,0 +1,28 @@
+Manifest.txt
+bin/console
+bin/setup
+lib/<%=config[:nesteddirs]%>.rb
+lib/<%=config[:nesteddirs]%>/version.rb
+lib/<%=config[:nesteddirs]%>/lib.rb
+lib/<%=config[:nesteddirs]%>/person.rb<% if 'yes' == config[:executable] %>
+lib/<%=config[:nesteddirs]%>/app.rb
+lib/<%=config[:nesteddirs]%>/cli.rb<% end %>
+<%#
+lib/<%=config[:nesteddirs]%>/classic.rb
+lib/<%=config[:nesteddirs]%>/classic_c.so
+ext/classic_c/classic_c.i
+#%>
+resources/greet.txt
+resources/log4r.xml
+resources/log4r.yaml
+resources/prac.conf
+resources/prac.json
+resources/prac.toml
+resources/prac.xml
+resources/prac.yaml
+<%#<%=
+  rsrcfiles = Dir.glob('resources/*', base: name)
+  #rsrcfiles.map{|f| "#{f.inspect}"}.sort.uniq.join("\n")
+  #rsrcfiles.reduce("") {|acc, f| acc + f + "\n"}
+  rsrcfiles.sort.join("\n")
+%>#%>

@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require '<%=config[:nesteddirs]%>'
+# exit <%=config[:parentcap]%><%=config[:joiner]%><%=config[:projectcap]%>::App.main(<%=config[:parentcap]%><%=config[:joiner]%><%=config[:projectcap]%>::App.parse_cmdopts(ARGV))
+<%=config[:parentcap]%><%=config[:joiner]%><%=config[:projectcap]%>::Cli.start # (ARGV)

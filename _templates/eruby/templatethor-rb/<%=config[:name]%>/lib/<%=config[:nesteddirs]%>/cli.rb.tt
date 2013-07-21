@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require 'English'
+require 'thor'
+
+require '<%=config[:nesteddirs]%>/app'
+
+module <%=config[:parentcap]%>; end
+module <%=config[:parentcap]%><%=config[:joiner]%><%=config[:projectcap]%>; end
+
+class <%=config[:parentcap]%><%=config[:joiner]%><%=config[:projectcap]%>::Cli < Thor
+  no_commands {
+  #
+  }
+  
+  desc 'main ARGS', 'Main method'
+  option :user, :default => 'World', :aliases => '-u'
+  def main(args = [])
+    <%=config[:parentcap]%><%=config[:joiner]%><%=config[:projectcap]%>::App.main(options)
+  end
+end
+
+
+if __FILE__ == $PROGRAM_NAME
+  <%=config[:parentcap]%><%=config[:joiner]%><%=config[:projectcap]%>::Cli.start(ARGV)
+  exit 0
+end
