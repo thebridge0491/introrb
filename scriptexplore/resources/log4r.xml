@@ -1,0 +1,21 @@
+<!-- the config file used by xmlconfig.rb -->
+<log4r_config>
+    <pre_config>
+        <global level = "DEBUG"/>
+        <!-- we'll set serverlog in XML and logpath at runtime for illustration -->
+        <parameter name = "serverlog" value = "server.log"/>
+    </pre_config>
+    
+    <!-- outputters, illustrating XML config flexibility -->
+    <outputter type = "FileOutputter" name = "log_root">
+        <filename>root.log</filename>
+        <trunc>false</trunc>
+    </outputter>
+    <outputter type = "FileOutputter" name = "log_prac"
+        filename = "prac.log"/>
+    <outputter type = "StderrOutputter" name = "log_err" level = "DEBUG"/>
+    
+    <!-- loggers -->
+    <logger name = "root1" level = "DEBUG" outputters = "log_root, log_err"/>
+    <logger name = "prac" level = "INFO" outputters = "log_prac"/>
+</log4r_config> 

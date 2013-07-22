@@ -1,0 +1,17 @@
+Manifest.txt
+bin/console
+bin/setup
+lib/introrb/scriptexplore.rb
+lib/introrb/scriptexplore/version.rb
+lib/introrb/scriptexplore/lib.rb
+lib/introrb/scriptexplore/person.rb
+lib/introrb/scriptexplore/app.rb
+lib/introrb/scriptexplore/cli.rb
+resources/greet.txt
+resources/log4r.xml
+resources/log4r.yaml
+resources/prac.conf
+resources/prac.json
+resources/prac.toml
+resources/prac.xml
+resources/prac.yaml

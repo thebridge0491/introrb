@@ -1,0 +1,8 @@
+--- !ruby/object:RDoc::Options
+encoding: UTF-8
+rdoc_include:
+  - .
+main_page: README.rst
+tab_width: 4
+title: introrb-scriptexplore Documentation
+op_dir: build/doc
