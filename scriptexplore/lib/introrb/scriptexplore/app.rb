@@ -22,7 +22,7 @@ module Introrb::Scriptexplore::App
   def parse_cmdopts(args = [])
     require 'optparse'
     
-    mod_list = ['simple']
+    mod_list = ['simple', 'advanced']
     opts_hash = {'mod': 'simple'}
     usage_str = <<EOF
 Usage: #{$PROGRAM_NAME} [OPTIONS]

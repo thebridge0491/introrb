@@ -13,7 +13,7 @@ class Introrb::Scriptexplore::Cli < Thor
   #
   }
   
-  mod_list = ['simple']
+  mod_list = ['simple', 'advanced']
   
   desc 'main ARGS', 'Main method'
   option :mod, :default => mod_list[0], :aliases => '-m', :desc => "choices: #{mod_list}"
