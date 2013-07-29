@@ -70,39 +70,51 @@ module Introrb::Scriptexplore::Simple
   #<path>/maynard.pl 05 <path>/data05
   def simple05(args="data05".split(), path_pfx=ENV.fetch('PATH_PFX', nil))
     xform_args(args, path_pfx).map{|dir|
-      d = IO.popen("/bin/ls #{dir}", 'r')
-      while (line = d.gets)
-        print "#{dir}/#{line}"
-      end
-      d.close}
+      #d = IO.popen("/bin/ls #{dir}", 'r')
+      #while (line = d.gets)
+      #  print "#{dir}/#{line}"
+      #end
+      #d.close
+      Dir['*', base: dir].sort.each{|line| puts "#{dir}/#{line}"}
+      }
   end
   
   #problem 06: print all regular file names in directory from cmd-line
   #<path>/maynard.pl 06 <path>/data05
   def simple06(args="data05".split(), path_pfx=ENV.fetch('PATH_PFX', nil))
     xform_args(args, path_pfx).map{|dir|
-      d = IO.popen("/bin/ls #{dir}", 'r')
-      while (line = d.gets)
+      #d = IO.popen("/bin/ls #{dir}", 'r')
+      #while (line = d.gets)
+      #  line = line.chomp
+      #  if (File.file?("#{dir}/#{line}"))
+      #    puts "#{dir}/#{line}"
+      #  end
+      #end
+      #d.close
+      Dir['*', base: dir].sort.each{|line|
         line = line.chomp
-        if (File.file?("#{dir}/#{line}"))
-          puts "#{dir}/#{line}"
-        end
-      end
-      d.close}
+        puts "#{dir}/#{line}" if File.file?("#{dir}/#{line}")
+      }
+      }
   end
   
   #problem 07: print all directory names in directory from cmd-line
   #<path>/maynard.pl 07 <path>/data05
   def simple07(args="data05".split(), path_pfx=ENV.fetch('PATH_PFX', nil))
     xform_args(args, path_pfx).map{|dir|
-      d = IO.popen("/bin/ls #{dir}", 'r')
-      while (line = d.gets)
+      #d = IO.popen("/bin/ls #{dir}", 'r')
+      #while (line = d.gets)
+      #  line = line.chomp
+      #  if (File.directory?("#{dir}/#{line}"))
+      #    puts "#{dir}/#{line}"
+      #  end
+      #end
+      #d.close
+      Dir['*', base: dir].sort.each{|line|
         line = line.chomp
-        if (File.directory?("#{dir}/#{line}"))
-          puts "#{dir}/#{line}"
-        end
-      end
-      d.close}
+        puts "#{dir}/#{line}" if File.directory?("#{dir}/#{line}")
+      }
+      }
   end
   
   #problem 08: print mv cmds to chg file extension fm "for" to "f"
@@ -114,19 +126,31 @@ module Introrb::Scriptexplore::Simple
     end
     ext_old, ext_new, dir1toN = args[0], args[1], args.drop(2)
     xform_args(dir1toN, path_pfx).map{|dir|
-      d = IO.popen("/bin/ls #{dir}", 'r')
-      while (old_file = d.gets)
-	    old_file = old_file.chomp
-	    
-	    if (File.file?("#{dir}/#{old_file}"))
-		  $ARG = old_file.clone # str.clone | "" + str | String.new str
-		  
-		  if ($ARG.sub!(/\.#{ext_old}$/, "\.#{ext_new}"))
-		    puts "mv #{dir}/#{old_file} #{dir}/#$ARG"
-		  end
-	    end
-	  end
-      d.close}
+      #d = IO.popen("/bin/ls #{dir}", 'r')
+      #while (old_file = d.gets)
+	  #  old_file = old_file.chomp
+	  #  
+	  #  if (File.file?("#{dir}/#{old_file}"))
+	  #	  $ARG = old_file.clone # str.clone | "" + str | String.new str
+	  #	  
+	  #	  if ($ARG.sub!(/\.#{ext_old}$/, "\.#{ext_new}"))
+	  #	    puts "mv #{dir}/#{old_file} #{dir}/#$ARG"
+	  #	  end
+	  #  end
+	  #end
+      #d.close
+      Dir['*', base: dir].sort.each{|old_file|
+        old_file = old_file.chomp
+        
+        if File.file?("#{dir}/#{old_file}")
+          $ARG = old_file.clone # str.clone | "" + str | String.new str
+          
+          if $ARG.sub!(/\.#{ext_old}$/, "\.#{ext_new}")
+            puts "mv #{dir}/#{old_file} #{dir}/#$ARG"
+          end
+        end
+      }
+      }
   end
   
   def lib_main(args = [])

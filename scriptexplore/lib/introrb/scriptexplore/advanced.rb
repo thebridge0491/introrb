@@ -69,12 +69,14 @@ module Introrb::Scriptexplore::Advanced
   #<path>/maynard.pl 04 <path>/data04/{a,b,a/d}
   def advanced04(args="data04/a data04/b data04/a/d".split(), path_pfx=ENV.fetch('PATH_PFX', nil))
     xform_args(args, path_pfx).map{|dir|
-      fh = IO.popen("/usr/bin/find #{dir} -name 'core' -print", 'r')
-      
-      while (line = fh.gets)
-        print "rm #{line}"
-      end
-      fh.close}
+      #fh = IO.popen("/usr/bin/find #{dir} -name 'core' -print", 'r')
+      #
+      #while (line = fh.gets)
+      #  print "rm #{line}"
+      #end
+      #fh.close
+      Dir["#{dir}/**/core"].each{|line| puts "rm #{line}"}
+      }
   end
   
   #problem 05: locate all core files in directories fm file fm cmd-line
@@ -83,12 +85,13 @@ module Introrb::Scriptexplore::Advanced
     xform_args(args, path_pfx).map{|p| File.open(p)}.each{|f|
       while (dir = f.gets)
         dir = xform_args([dir.chomp], path_pfx)[0]
-        fh = IO.popen("/usr/bin/find #{dir} -name 'core' -print", 'r')
-        
-        while (line = fh.gets)
-          puts "rm #{line}"
-        end
-       fh.close
+        #fh = IO.popen("/usr/bin/find #{dir} -name 'core' -print", 'r')
+        #
+        #while (line = fh.gets)
+        #  puts "rm #{line}"
+        #end
+        #fh.close
+        Dir["#{dir}/**/core"].each{|line| puts "rm #{line}"}
       end}
   end
   
@@ -97,20 +100,38 @@ module Introrb::Scriptexplore::Advanced
   def advanced06(args="ba+d data06".split(), path_pfx=ENV.fetch('PATH_PFX', nil))
     rexp = args[0]
     xform_args(args.drop(1), path_pfx).map{|p|
-      fh1 = IO.popen("/bin/ls #{p}", 'r')
-      while (file0 = fh1.gets)
+      #fh1 = IO.popen("/bin/ls #{p}", 'r')
+      #while (file0 = fh1.gets)
+      #  file0 = p + '/' + file0.chomp
+      #  
+	  #	if (File.file?(file0) && `/usr/bin/file #{file0}`.match(/text/))
+	  #	  fh2 = File.open(file0, 'r')
+	  #	  
+	  #	  while (line = fh2.gets)
+	  #	    print "#{file0}:#{line}" if line.match(/#{rexp}/)
+	  #	  end
+	  #	  fh2.close
+	  #	end
+      #end
+      #fh1.close
+      Dir['*', base: p].each{|file0|
         file0 = p + '/' + file0.chomp
         
-		if (File.file?(file0) && `/usr/bin/file #{file0}`.match(/text/))
-		  fh2 = File.open(file0, 'r')
-		  
-		  while (line = fh2.gets)
-		    print "#{file0}:#{line}" if line.match(/#{rexp}/)
-		  end
-		  fh2.close
-		end
-      end
-      fh1.close}
+        if File.file?(file0)
+	  	  fh2 = File.open(file0, 'r')
+	  	  
+	  	  while (line = fh2.gets)
+	  	    begin
+	  	      print "#{file0}:#{line}" if line.match(/#{rexp}/)
+	  	    rescue ArgumentError => e
+	  	      $stderr.puts "###\nError: Non-text file\n#{e}\n###"
+	  	      break
+	  	    end
+	  	  end
+	  	  fh2.close
+	  	end
+      }
+      }
   end
   
   #problem 07: print mv cmds to chg basename for a set of files fm cmd-line
