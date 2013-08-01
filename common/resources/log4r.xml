@@ -17,5 +17,5 @@
     
     <!-- loggers -->
     <logger name = "root1" level = "DEBUG" outputters = "log_root, log_err"/>
-    <logger name = "prac" level = "INFO" outputters = "log_prac"/>
+    <logger name = "prac" level = "INFO" outputters = "log_prac, log_err"/>
 </log4r_config> 

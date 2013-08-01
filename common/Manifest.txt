@@ -4,7 +4,6 @@ bin/setup
 lib/introrb/util.rb
 lib/introrb/util/version.rb
 lib/introrb/util/lib.rb
-lib/introrb/util/person.rb
 resources/greet.txt
 resources/log4r.xml
 resources/log4r.yaml

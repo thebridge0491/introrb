@@ -32,6 +32,7 @@ logging_config:
     - name      : prac
       level     : INFO 
       appenders: 
+        - log_err
         - log_prac 
 
   # define all appenders (incl. layouts)      

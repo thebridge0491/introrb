@@ -1,22 +1,38 @@
+require 'log4r'
+
 module Introrb; end
 
 module Introrb::Intro
   extend self
   
-  def in_epsilon(a, b, tolerance = 0.001)
-    delta = tolerance.abs
-    # (a - delta) <= b && (a + delta) >= b
-    !((a + delta) < b) && !((b + delta) < a)
+  Logger = Log4r::Logger
+  Logger.new('root1')
+  
+  def greeting(greet_file, name, rsrc_path: "resources")
+    Logger['root1'].info 'greeting'
+    res_str = File.read("#{rsrc_path}/#{greet_file}").chomp
+    
+    res_str + name
   end
   
-  def cartesian_prod(arr1, arr2)
-    # arr1.product(arr2).select{|e| true}
-    arr1.flat_map{|x| arr2.map{|y| [x, y]}}.select{|e| true}
+  def delay_char(delay_secs)
+    require 'readline'
+    
+    ch = ''
+    while true
+      sleep delay_secs
+      ch = Readline.readline 'Type any character when ready.'
+      if '\n' != ch and '' != ch
+        break
+      end
+    end
+    ch[0]
   end
-  
+    
   def lib_main(args = [])
-    arr1, arr2 = [0, 1, 2], [10, 20, 30]
-    puts "cartesian_prod(#{arr1}, #{arr2}): #{cartesian_prod(arr1, arr2)}"
+    delay_secs = 2.5
+    puts "delay_char(#{delay_secs})"
+    delay_char(delay_secs)
     0
   end
 end

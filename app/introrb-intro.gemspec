@@ -58,8 +58,8 @@ Gem::Specification.new do |s|
   end
   
   {'logging' => '>= 1.7.2', 'log4r' => '>= 1.1.10', 'inifile' => '>= 2.0.2',
-    'parseconfig' => '>= 1.0.2', 'toml' => '>= 0.0.4', 'thor' => '>= 0.15.4' #,
-    #'ffi' => '>= 1.8.1'
+    'parseconfig' => '>= 1.0.2', 'toml' => '>= 0.0.4', 'thor' => '>= 0.15.4',
+    'introrb-util' => '>= 0.1.0', 'introrb-practice' => '>= 0.1.0'
     }.each do |depn, ver|
     s.add_runtime_dependency depn, ver
   end

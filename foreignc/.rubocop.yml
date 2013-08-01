@@ -1,0 +1,78 @@
+AllCops:
+  Include:
+    - '{lib,ext,bin,spec,test}/**/*.rb'
+    - '*.gemspec'
+    - 'Gemfile'
+    - 'Rakefile'
+    - '*.rb'
+  Exclude:
+    - '{build,pkg,tmp}/**/*'
+
+Layout/ArgumentAlignment:
+  Enabled: false
+Layout/ArrayAlignment:
+  Enabled: false
+Layout/BlockAlignment:
+  Enabled: false
+Layout/BlockEndNewline:
+  Enabled: false
+Layout/EmptyComment:
+  Enabled: false
+Layout/EmptyLines:
+  Enabled: false
+Layout/HashAlignment:
+  Enabled: false
+Layout/IndentationStyle:
+  Enabled: false
+Layout/MultilineBlockLayout:
+  Enabled: false
+Layout/SpaceBeforeBlockBraces:
+  Enabled: false
+Layout/SpaceInsideBlockBraces:
+  Enabled: false
+Layout/SpaceInsideHashLiteralBraces:
+  Enabled: false
+Lint/ScriptPermission:
+  Enabled: false
+Lint/UnusedMethodArgument:
+  Enabled: false
+Lint/UselessAssignment:
+  Enabled: false
+Style/BlockDelimiters:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/FormatStringToken:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/HashSyntax:
+  Enabled: false
+Style/IfUnlessModifierOfIfUnless:
+  Enabled: false
+Style/InverseMethods:
+  Enabled: false
+Style/Lambda:
+  Enabled: false
+Style/ModuleFunction:
+  EnforcedStyle: extend_self
+Style/MultilineBlockChain:
+  Enabled: false
+Style/MultilineIfModifier:
+  Enabled: false
+Style/ParallelAssignment:
+  Enabled: false
+Style/RegexpLiteral:
+  Enabled: false
+Style/RescueModifier:
+  Enabled: false
+Style/StderrPuts:
+  Enabled: false
+Style/SymbolArray:
+  Enabled: false
+Style/WordArray:
+  Enabled: false
+Style/YodaCondition:
+  Enabled: false

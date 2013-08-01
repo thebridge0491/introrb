@@ -1,0 +1,15 @@
+Manifest.txt
+bin/console
+bin/setup
+lib/introrb/practice.rb
+lib/introrb/practice/version.rb
+lib/introrb/practice/classic.rb
+lib/introrb/practice/sequenceops.rb
+resources/greet.txt
+resources/log4r.xml
+resources/log4r.yaml
+resources/prac.conf
+resources/prac.json
+resources/prac.toml
+resources/prac.xml
+resources/prac.yaml

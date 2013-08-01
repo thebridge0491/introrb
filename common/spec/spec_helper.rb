@@ -3,6 +3,8 @@ require 'simplecov'
 
 require 'introrb/util'
 
+Util = Introrb::Util
+
 module SimpleCov::Configuration
   def clean_filters
     @filters = []

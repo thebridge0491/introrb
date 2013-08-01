@@ -30,7 +30,7 @@ task :_args_task, [:arg1] do |t, args|
 end
 
 parent, version = 'introrb', '0.1.0'
-SUBDIRS = ENV['SUBDIRS'] ? ENV['SUBDIRS'].split : 'common app'.split
+SUBDIRS = ENV['SUBDIRS'] ? ENV['SUBDIRS'].split : 'common foreignc api app'.split
 
 desc "Default target: #{RAKE} help"
 task :default => [:help]

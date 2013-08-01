@@ -1,0 +1,14 @@
+Manifest.txt
+bin/console
+bin/setup
+lib/introrb/foreignc.rb
+lib/introrb/foreignc/version.rb
+lib/introrb/foreignc/classic.rb
+resources/greet.txt
+resources/log4r.xml
+resources/log4r.yaml
+resources/prac.conf
+resources/prac.json
+resources/prac.toml
+resources/prac.xml
+resources/prac.yaml

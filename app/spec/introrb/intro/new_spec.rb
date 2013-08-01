@@ -21,12 +21,6 @@ describe 'Introrb::Intro::NewSpec' do
     # puts '... teardown method'
   end
   
-  def in_epsilon(a, b, tolerance = 0.001)
-    delta = tolerance.abs
-    # (a - delta) <= b && (a + delta) >= b
-    !((a + delta) < b) && !((b + delta) < a)
-  end
-  
   describe 'spec_version_exists' do
     it 'version exists' do
       expect(::Introrb::Intro::VERSION).not_to be_nil
@@ -48,7 +42,7 @@ describe 'Introrb::Intro::NewSpec' do
   describe 'spec_dblMethod' do
     it 'doubles are equal' do
       # expect(4.0).to be_within(4.0 * epsilon).of(4.0)
-      expect(in_epsilon(4.0 * epsilon, 4.0, 4.0)).to be
+      expect(Util.in_epsilon(4.0 * epsilon, 4.0, 4.0)).to be
     end
   end
 
