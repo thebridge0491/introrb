@@ -107,7 +107,8 @@ module Introrb::Scriptexplore::Ddiff
     #   similar name but different  : < file >
     #   similar name and same       : > file <
     # demo: $ script [-ds12] <path>/dataA <path>/dataB
-    for line in create_diff_list(paths, **opts_hash)
+    for line in create_diff_list(1 > paths.length ? ["data_diff/dataA",
+          "data_diff/dataB"] : paths, **opts_hash)
       puts line
     end
     

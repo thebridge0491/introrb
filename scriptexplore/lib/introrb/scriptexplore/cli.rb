@@ -18,7 +18,7 @@ class Introrb::Scriptexplore::Cli < Thor
   desc 'main ARGS', 'Main method'
   option :mod, :default => mod_list[0], :aliases => '-m', :desc => "choices: #{mod_list}"
   def main(args = [])
-    Introrb::Scriptexplore::App.main(options.merge({:rest => ARGV.drop(1)}))
+    Introrb::Scriptexplore::App.main(options.merge({:rest => ARGV.drop(3)}))
   end
 end
 

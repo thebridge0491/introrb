@@ -108,3 +108,4 @@ ext/**/*_wrap.c
 ext/**/*.o
 ext/**/*.s
 ext/**/Makefile
+resources/explore/*

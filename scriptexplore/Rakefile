@@ -63,37 +63,40 @@ end if defined? YARD::Rake::YardocTask
 file "pkg/#{SPEC.name}-#{SPEC.version}" do |p|
   mkdir_p(p.name)
   # sh "zip -9 -q -x @exclude.lst -r - . | unzip -od #{p.name} -"
-  sh "tar --posix -L -X exclude.lst -cf - . | tar -xpf - -C #{p.name}"
+  sh "tar --posix -h -X exclude.lst -cf - . | tar -xpf - -C #{p.name}"
 end
 if defined? Rake::PackageTask
   Rake::PackageTask.new(SPEC.name, SPEC.version) do |p|
     # task("pkg/#{SPEC.name}-#{SPEC.version}").invoke
     
-    ENV.fetch('FMTS', 'tar.gz').split(',').each{|fmt|
+    ENV.fetch('FMTS', 'tar.gz,zip').split(',').each{|fmt|
       if p.respond_to? "need_#{fmt.tr('.', '_')}="
         p.send("need_#{fmt.tr('.', '_')}=", true)
       else
         p.need_tar_gz = true
       end
     }
-    task(:package).add_description "[FMTS=#{ENV.fetch('FMTS', 'tar.gz')}]"
-    task(:repackage).add_description "[FMTS=#{ENV.fetch('FMTS', 'tar.gz')}]"
+    task(:package).add_description "[FMTS=#{ENV.fetch('FMTS', 'tar.gz,zip')}]"
+    task(:repackage).add_description "[FMTS=#{ENV.fetch('FMTS', 'tar.gz,zip')}]"
   end
 else
-  desc "[FMTS=#{ENV.fetch('FMTS', 'tar.gz')}] Package project distribution"
+  desc "[FMTS=#{ENV.fetch('FMTS', 'tar.gz,zip')}] Package project distribution"
   task :dist => ["pkg/#{SPEC.name}-#{SPEC.version}"] do |t|
     distdir = "#{SPEC.name}-#{SPEC.version}"
     
-    ENV.fetch('FMTS', 'tar.gz').split(',').each{|fmt|
+    ENV.fetch('FMTS', 'tar.gz,zip').split(',').each{|fmt|
       case fmt
+      when '7z'
+        rm_rf("pkg/#{distdir}.7z") || true
+        cd('pkg') {sh "7za a -t7z -mx=9 #{distdir}.7z #{distdir}" || true}
       when 'zip'
         rm_rf("pkg/#{distdir}.zip") || true
         cd('pkg') {sh "zip -9 -q -r #{distdir}.zip #{distdir}" || true}
       else
-        # tarext = `echo #{fmt} | grep -e '^tar$' -e '^tar.xz$' -e '^tar.bz2$' || echo tar.gz`.chomp
-        tarext = fmt.match(%r{(^tar$|^tar.xz$|^tar.bz2$)}) ? fmt : 'tar.gz'
+        # tarext = `echo #{fmt} | grep -e '^tar$' -e '^tar.xz$' -e '^tar.zst$' -e '^tar.bz2$' || echo tar.gz`.chomp
+        tarext = fmt.match(%r{(^tar$|^tar.xz$|^tar.zst$|^tar.bz2$)}) ? fmt : 'tar.gz'
         rm_rf("pkg/#{distdir}.#{tarext}") || true
-        cd('pkg') {sh "tar --posix -L -caf #{distdir}.#{tarext} #{distdir}" || true}
+        cd('pkg') {sh "tar --posix -h -caf #{distdir}.#{tarext} #{distdir}" || true}
       end
     }
   end

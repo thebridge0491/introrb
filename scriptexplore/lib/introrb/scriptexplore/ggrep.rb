@@ -73,7 +73,9 @@ module Introrb::Scriptexplore::Ggrep
 	# Greps for regular expression in all regular files in cmdline arg 
     # file/directory list as well as files under given directories
     # demo: $ script [-l] 'ba+d' <path>/filea <path>/fileb <path>/dir <path>/data6
-    for line in create_grep_match_list(params[0], params.drop(1),
+    for line in create_grep_match_list(1 > params.length ? "ba+d" : params[0],
+        2 > params.length ? ["data_grep/filea", "data_grep/fileb",
+        "data_grep/dir", "data_grep/data6"] : params.drop(1),
 		is_file_only: args.any?{|e| '-l' == e})
       puts line
     end

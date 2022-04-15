@@ -63,7 +63,7 @@ module Introrb::Scriptexplore::Mymd5
   
   #Update two dictionaries of files -> digest
   def _update_lines_dict(dict1, dict2, digestpath)
-    file0 = File.open(digestpath)
+    file0 = nil == digestpath ? $stdin : File.open(digestpath)
     
     while (line = file0.gets)
       matches = line.match(/^([^ \t]+)[ \t]*([^ \t]+)\n/)
@@ -121,12 +121,14 @@ module Introrb::Scriptexplore::Mymd5
       #    
       #    <old>{file} {digest}        # for deleted
       # demo: $ script [-s] -c <path>/rootfile.txt <path>/digestfile.txt
-      verify_digest(*paths, is_sha1: args.any?{|e| '-s' == e})
+      verify_digest(paths.empty? ? "data_md5/rootfile.txt" : paths[0],
+        2 > paths.length ? nil : paths[1], is_sha1: args.any?{|e| '-s' == e})
 	else
       # Print the hash digest (MD5 or SHA1) of all regular files under any
       # directories of command-line arg file
       # demo: $ script [-s] <path>/rootfile.txt [<path>/digestfile.txt]
-      print_digest(*paths, is_sha1: args.any?{|e| '-s' == e})
+      print_digest(paths.empty? ? "data_md5/rootfile.txt" : paths[0],
+        2 > paths.length ? nil : paths[1], is_sha1: args.any?{|e| '-s' == e})
 	end
     
     0

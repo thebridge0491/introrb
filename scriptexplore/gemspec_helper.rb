@@ -10,18 +10,18 @@ email: [thebridge0491-codelab@yahoo.com]
 licenses: [Apache-2.0]
 homepage: https://www.bitbucket.org/thebridge0491/introrb
 
-required_ruby_version: '>= 2.0'
-required_rubygems_version: '>= 2.0'
+required_ruby_version: '>= 2.7'
+required_rubygems_version: '>= 3.0'
 
 development_dependencies: {
-  bundler: '>= 1.3.5', rake: '>= 10.0.4', rdoc: '>= 4.0.1', yard: '>= 0.8.6',
-  rspec: '>= 2.13.0', minitest: '>= 5.0.3', simplecov: '>= 0.7.1',
-  rubocop: '>= 0.8.2', rake-compiler: '>= 0.8.3'
+  bundler: '>= 2.3', rake: '>= 13.0', rdoc: '>= 6.3', yard: '>= 0.9',
+  rspec: '>= 3.10', minitest: '>= 5.14', simplecov: '>= 0.21',
+  rubocop: '>= 1.24', rake-compiler: '>= 1.1'
   }
 runtime_dependencies: {
-  logging: '>= 1.7.2', log4r: '>= 1.1.10', inifile: '>= 2.0.2',
-  parseconfig: '>= 1.0.2', toml: '>= 0.0.4', thor: '>= 0.15.4' #,
-  # ffi: '>= 1.8.1'
+  logging: '>= 2.2', log4r: '>= 1.1', inifile: '>= 2.0',
+  parseconfig: '>= 1.1', toml: '>= 0.3', thor: '>= 1.1' #,
+  # ffi: '>= 1.14'
   }
 "
 
@@ -65,6 +65,7 @@ SPEC =
         s.respond_to? :required_rubygems_version=
       s.platform = Gem::Platform::RUBY
       
+      ## (trusted source) gem cert --add $HOME/.pki/publish_crls/demoCA/chain.crt
       # s.cert_chain = ["#{ENV['HOME']}/.pki/paired/codesign.pem"]
       # s.signing_key = "#{ENV['HOME']}/.pki/paired/codesign.pem"
       
