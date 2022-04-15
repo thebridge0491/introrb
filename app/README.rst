@@ -20,12 +20,16 @@ version control repository clone:
         git clone https://bitbucket.org/thebridge0491/introrb.git
 
 build example with make:
-cd <path> ; make [test | spec] gem
+cd <path> ; [GEM_HOME=$HOME/.gem/ruby/X.Y] bundle install
+
+make [test | spec] gem
 
 make install
 
 build example with rake:
-cd <path> ; rake [test | spec] gem
+cd <path> ; [GEM_HOME=$HOME/.gem/ruby/X.Y] bundle install
+
+rake [test | spec] gem
 
 rake install
 

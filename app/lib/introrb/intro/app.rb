@@ -38,6 +38,22 @@ module Introrb::Intro::App
   extend self
   
   User = Struct.new(:name, :num, :time_in)
+
+  def deserialize_str(datastr, fmt='yaml')
+    initdata = {:fmt => fmt}
+
+    keys2sym = proc {|h| h.map{|k, v|
+      [k.to_sym, v.is_a?(Hash) ? keys2sym.call(v) : v]}.to_h}
+
+    if ['yaml', 'json'].include? fmt
+      return initdata.merge(Psych.load(datastr, {:symbolize_names => true}))
+    elsif 'toml' == fmt
+      return initdata.merge(keys2sym.call TOML.load(datastr))
+    #elsif 'json' == fmt
+    # return initdata.merge(JSON.parse(datastr, {:symbolize_names => true}))
+    end
+    return initdata
+  end
   
   def run_intro(opts, rsrc_path: 'resources')
     time_in = DateTime.now
@@ -137,11 +153,9 @@ EOF
     # cfg_ini = keys2sym.call IniFile.load("#{rsrc_path}/prac.conf")
     cfg_ini = keys2sym.call ParseConfig.new("#{rsrc_path}/prac.conf").params
     
-    #cfg_json = keys2sym.call JSON.parse(File.read("#{rsrc_path}/prac.json"))
-    
-    #cfg_yaml = keys2sym.call Psych.load(File.read("#{rsrc_path}/prac.yaml"))
-    
-    #cfg_toml = keys2sym.call TOML.load(File.read("#{rsrc_path}/prac.toml"))
+    #cfg_json = deserialize_str(File.read("#{rsrc_path}/prac.json"), "json")
+    #cfg_toml = deserialize_str(File.read("#{rsrc_path}/prac.toml"), "toml")
+    #cfg_yaml = deserialize_str(File.read("#{rsrc_path}/prac.yaml"), "yaml")
     
     tup_arr = [
       [cfg_ini, cfg_ini[:default][:domain], cfg_ini[:user1][:name]] #,

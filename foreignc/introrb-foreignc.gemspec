@@ -39,25 +39,26 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = Dir.glob('{LICENSE,README*}')
   # s.rdoc_options = ['--main', 'README.txt']
   
-  s.required_ruby_version = Gem::Requirement.new('>= 2.0') if
+  s.required_ruby_version = Gem::Requirement.new('>= 2.7') if
     s.respond_to? :required_ruby_version=
-  s.required_rubygems_version = Gem::Requirement.new('>= 2.0') if
+  s.required_rubygems_version = Gem::Requirement.new('>= 3.0') if
     s.respond_to? :required_rubygems_version=
   s.platform = Gem::Platform::RUBY
   
+  ## (trusted source) gem cert --add $HOME/.pki/publish_crls/demoCA/chain.crt
   # s.cert_chain = ["#{ENV['HOME']}/.pki/paired/codesign.pem"]
   # s.signing_key = "#{ENV['HOME']}/.pki/paired/codesign.pem"
   
   # s.date = '2013-08-01' # Time.now.strftime('%Y-%m-%d')
 
-  {'bundler' => '>= 1.3.5', 'rake' => '>= 10.0.4', 'rdoc' => '>= 4.0.1',
-    'yard' => '>= 0.8.6', 'rspec' => '>= 2.13.0', 'minitest' => '>= 5.0.3',
-    'simplecov' => '>= 0.7.1', 'rubocop' => '>= 0.8.2',
-    'rake-compiler' => '>= 0.8.3', 'introrb-util' => '>= 0.1.0'}.each do |depn, ver|
+  {'bundler' => '>= 2.3', 'rake' => '>= 13.0', 'rdoc' => '>= 6.3',
+    'yard' => '>= 0.9', 'rspec' => '>= 3.10', 'minitest' => '>= 5.14',
+    'simplecov' => '>= 0.21', 'rubocop' => '>= 1.24',
+    'rake-compiler' => '>= 1.1', 'introrb-util' => '>= 0.1'}.each do |depn, ver|
     s.add_development_dependency depn, ver
   end
   
-  {'ffi' => '>= 1.8.1'
+  {'ffi' => '>= 1.14'
     }.each do |depn, ver|
     s.add_runtime_dependency depn, ver
   end

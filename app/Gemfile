@@ -1,3 +1,5 @@
-source 'https://rubygems.org'
+#source 'https://rubygems.org'
+## ?? unknown FreeBSD CA certs not found - not working https, but http OK
+source "#{ENV.fetch('HTTP_PROTO', 'https')}://rubygems.org"
 
 gemspec
