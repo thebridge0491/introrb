@@ -2,7 +2,7 @@ GNU GENERAL PUBLIC LICENSE
                       Version 3, 29 June 2007
 
 <%=config[:description]%>
-Copyright (C) <%=config[:year]%>  <%=config[:author]%>
+Copyright (C) <%=config[:year]%>  <%=config.fetch(:author, config[:repoacct])%>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as

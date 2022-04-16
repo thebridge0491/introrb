@@ -1,0 +1,34 @@
+= <%=config[:projectcap]%>
+:author: <%=config.fetch(:author, config[:repoacct])%>
+:email: <<%=config.fetch(:email, "#{config[:repoacct]}-codelab@yahoo.com")%>>
+:revnumber: <%=config[:version]%>
+:description: README for <%=config[:project]%>
+:hardbreaks:
+:linkcss:
+//:stylesheet!:
+
+////
+.adoc to .html: asciidoctor -n -a toc -a toclevels=2 foo.adoc
+////
+
+<%=config[:description]%>
+
+== Installation
+source code tarball download:
+    
+        # [aria2c --check-certificate=false | wget --no-check-certificate | curl -kOL]
+        FETCHCMD='aria2c --check-certificate=false'
+        $FETCHCMD https://<%=config[:repohost]%>/<%=config[:repoacct]%>/<%=config[:project]%>/[get | archive]/master.zip
+
+version control repository clone:
+        
+        git clone https://<%=config[:repohost]%>/<%=config[:repoacct]%>/<%=config[:project]%>.git
+
+== Usage
+        TODO - fix usage info
+
+== Author/Copyright
+Copyright (c) <%=config[:year]%> by <%=config.fetch(:author, config[:repoacct])%> <<%=config.fetch(:email, "#{config[:repoacct]}-codelab@yahoo.com")%>>
+
+== License
+Licensed under the <%=config[:license]%> License. See LICENSE for details.

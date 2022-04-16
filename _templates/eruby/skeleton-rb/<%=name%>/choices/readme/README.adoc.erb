@@ -1,6 +1,6 @@
 = <%=parentcap%><%=joiner%><%=projectcap%>
-:author: <%=author%>
-:email: <<%=email%>>
+:author: <%=defined?(author) ? author : repoacct%>
+:email: <<%=defined?(email) ? email : "#{repoacct}-codelab@yahoo.com"%>>
 :revnumber: <%=version%>
 :description: README for <%=name%>
 :hardbreaks:
@@ -25,11 +25,13 @@ version control repository clone:
         git clone https://<%=repohost%>/<%=repoacct%>/<%=parent%>.git
 
 build example with make:
-cd <path> ; make [test | spec] gem
+cd <path> ; [GEM_HOME=$HOME/.gem/ruby/X.Y] bundle install
+make [test | spec] gem
 make install
 
 build example with rake:
-cd <path> ; rake [test | spec] gem
+cd <path> ; [GEM_HOME=$HOME/.gem/ruby/X.Y] bundle install
+rake [test | spec] gem
 rake install
 
 == Usage
@@ -49,7 +51,7 @@ or
 <% end %>
 
 == Author/Copyright
-Copyright (c) <%=year%> by <%=author%> <<%=email%>>
+Copyright (c) <%=year%> by <%=defined?(author) ? author : repoacct%> <<%=defined?(email) ? email : "#{repoacct}-codelab@yahoo.com"%>>
 
 == License
 Licensed under the <%=license%> License. See LICENSE for details.

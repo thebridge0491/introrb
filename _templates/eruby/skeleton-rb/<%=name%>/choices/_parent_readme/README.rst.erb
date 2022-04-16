@@ -21,7 +21,7 @@ version control repository clone:
 
 Author/Copyright
 ----------------
-Author: <%=author%> <<%=email%>>
+Author: <%=defined?(author) ? author : repoacct%> <<%=defined?(email) ? email : "#{repoacct}-codelab@yahoo.com"%>>
     
 see sub-package's Author/Copyright
 

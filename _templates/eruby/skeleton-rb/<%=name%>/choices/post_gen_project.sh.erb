@@ -1,0 +1,59 @@
+#!/bin/sh
+
+mkdir -p build ; cp -R choices build/
+rm -r choices
+
+proj_dir=`pwd`
+readmeext=<%=defined?(readmeext) ? readmeext : '.rst'%>
+license=<%=defined?(license) ? license : 'Apache-2.0'%>
+buildtool=<%=defined?(buildtool) ? buildtool : 'rake'%>
+testfrwk=<%=defined?(testfrwk) ? testfrwk : 'rspec'%>
+executable=<%=defined?(executable) ? executable : 'no'%>
+ffilib=<%=defined?(ffilib) ? ffilib : 'none'%>
+
+nesteddirs=<%=defined?(nesteddirs) ? nesteddirs : 'introrb/util'%>
+parent=<%=defined?(parent) ? parent : 'introrb'%>
+project=<%=defined?(project) ? project : 'util'%>
+
+cp build/choices/readme/README${readmeext} README${readmeext}
+if [ -d build/choices/_parent_readme ] ; then
+    cp build/choices/_parent_readme/README${readmeext} \
+	    build/choices/_parent_init/README${readmeext} ;
+fi
+
+if [ ! 'Not open source' = "${license}" ] ; then
+    cp build/choices/license/LICENSE_${license} LICENSE ;
+fi
+
+if [ -d build/choices/build_tool ] && [ ! 'rake' = "${buildtool}" ] ; then
+	cp -R build/choices/build_tool/${buildtool}/* . ;
+elif [ -d build/choices/build_tool ] ; then # default: rake
+	cp -R build/choices/build_tool/rake/* . ;
+fi
+
+if [ -d build/choices/testfrwk ] && [ ! "rspec" = "${testfrwk}" ] ; then
+	cp -R build/choices/testfrwk/${testfrwk}/* . ;
+elif [ -d build/choices/testfrwk ] ; then # default: rspec
+	cp -R build/choices/testfrwk/rspec/* . ;
+fi
+
+if [ -d bin ] && [ -d "lib/${nesteddirs}" ] && [ ! "yes" = "${executable}" ] ; then
+    rm bin/${parent}_${project} lib/${nesteddirs}/cli.rb lib/${nesteddirs}/app/rb ;
+fi
+
+if [ -d build/choices/ffi_lib ] && [ '' = "$(echo "${ffilib}" | grep -E 'none')" ] ; then
+	if [ "swig" = "${ffilib}" ] ; then
+		mkdir -p ext ;
+		cp -R build/choices/ffi_lib/${ffilib}/. ext/ ;
+	else
+		cp -R build/choices/ffi_lib/${ffilib}/. lib/${nesteddirs}/ ;
+	fi ;
+fi
+
+if [ -d '../_templates' ] ; then
+	skeletondir=<%=defined?(skeletondir) ? skeletondir : "$HOME/Templates/eruby/skeleton-rb"%> ;
+	skel_pardir=`dirname ${skeletondir}` ;
+	rm -fr ../_templates/eruby/`basename ${skeletondir}` ;
+	mkdir -p ../_templates/eruby ;
+	cp -R ${skel_pardir}/render_eruby.* ${skeletondir} ../_templates/eruby/ ;
+fi

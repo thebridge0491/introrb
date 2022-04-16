@@ -1,0 +1,25 @@
+# <%=projectcap%>
+<!-- .md to .html: markdown foo.md > foo.html
+                   pandoc -s -f markdown_strict -t html5 -o foo.html foo.md -->
+
+<%=description%>
+
+## Installation
+source code tarball download:
+    
+        # [aria2c --check-certificate=false | wget --no-check-certificate | curl -kOL]
+        FETCHCMD='aria2c --check-certificate=false'
+        $FETCHCMD https://<%=repohost%>/<%=repoacct%>/<%=project%>/[get | archive]/master.zip
+
+version control repository clone:
+        
+        git clone https://<%=repohost%>/<%=repoacct%>/<%=project%>.git
+
+## Usage
+        TODO - fix usage info
+
+## Author/Copyright
+Copyright (c) <%=year%> by <%=defined?(author) ? author : repoacct%> <<%=defined?(email) ? email : "#{repoacct}-codelab@yahoo.com"%>>
+
+## License
+Licensed under the <%=license%> License. See LICENSE for details.

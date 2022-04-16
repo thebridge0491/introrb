@@ -1,0 +1,33 @@
+parentregex = "^[a-z][-a-z0-9]+$"
+projectregex = "^[a-z][a-z0-9]+$"
+separator = "-"
+joiner = "::"
+groupid = false
+category = false
+parent = "introrb"
+parentdescription = "Multi-package project Intro examples for Ruby."
+project = "util"
+description = "Utilities sub-package for Ruby Intro examples project."
+version = "0.1.0"
+
+repohost = "bitbucket.org"
+repoacct = "imcomputer"
+date = "2013-10-01"
+
+readmeext = ".rst"
+license = "Apache-2.0"
+buildtool = "rake"
+testfrwk = "rspec"
+
+ffilib = "none"
+
+skeletondir = "Templates/liquid/skeleton-rb"
+
+[_choices]
+readmeext = [".rst", ".md", ".adoc"]
+license = ["Apache-2.0", "MIT", "BSD-3-Clause", "GPL-3.0+", "ISC", "Unlicense",
+  "Not open source"]
+buildtool = ["rake", "make"]
+testfrwk = ["rspec", "minitest", "minitest-spec"]
+executable = ["no", "yes"]
+ffilib = ["none", "ffi", "swig"]

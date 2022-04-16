@@ -1,0 +1,80 @@
+Templates for initializing project structure.
+
+Install packages for chosen rendering script:
+  
+  (ruby) gem install [--user-install] liquid
+  
+  (groovy) grape install nl.big-o liqp '[0.7.9,)'
+  
+  (python) pip install [--user] python-liquid
+
+Example usage:
+  
+  ruby render_liquid.rb [--data data.yaml] skeleton-rb [date=2013-10-01]
+  
+  groovy render_liquid.groovy [--data data.yaml] skeleton-rb [--kvset date=2013-10-01]
+  
+  python render_liquid.py [--data data.yaml] skeleton-rb [--kvset date=2013-10-01]
+
+  #resulting project structure
+  
+  echo #---------- ; tree -aF --dirsfirst --matchdirs -I build introrb-util
+
+#----------
+introrb-util
+├── bin/
+│   ├── console
+│   ├── setup
+│  [└── introrb_util]
+├── lib/
+│   └── introrb/
+│       ├── util/
+│       │   ├── classic.rb
+│       │   ├── lib.rb
+│       │   ├── person.rb
+│       │   ├── version.rb
+│       │  [├── app.rb]
+│       │  [└── cli.rb]
+│       └── util.rb
+├── resources/
+│   ├── greet.txt
+│   ├── log4r.{xml,yaml}
+│   ├── prac.{conf,json,toml,xml,yaml}
+├── spec/
+│   ├── introrb/
+│   │   └── util/
+│   │       ├── classic_spec.rb
+│   │       └── new_spec.rb
+│   └── spec_helper.rb
+├── .document
+├── .editorconfig
+├── .{git,hg}ignore
+├── .rdoc_options
+├── .rspec
+├── .rubocop.yml
+├── .yardopts
+├── Gemfile
+├── LICENSE
+├── Manifest.txt
+├── README.rst
+├── Rakefile
+├── exclude.lst
+├── gemspec_helper.rb
+└── introrb-util.gemspec
+
+8 directories, 37 files
+  
+  python render_liquid.py skeleton-simple
+  
+  echo #---------- ; tree -aF --dirsfirst --matchdirs -I build simple-project
+
+#----------
+simple-project
+|-- .editorconfig
+|-- .{git,hg}ignore
+|-- LICENSE
+|-- README.rst
+|-- exclude.lst
+`-- vcs_bkup.sh
+
+0 directories, 7 files

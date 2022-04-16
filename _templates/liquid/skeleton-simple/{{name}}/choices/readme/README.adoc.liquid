@@ -1,0 +1,34 @@
+= {{projectcap}}
+:author: {{author|default: repoacct}}
+:email: <{%assign emaildefault = repoacct|append: "-codelab@yahoo.com"%}{{email|default: emaildefault}}>
+:revnumber: {{version}}
+:description: README for {{project}}
+:hardbreaks:
+:linkcss:
+//:stylesheet!:
+
+////
+.adoc to .html: asciidoctor -n -a toc -a toclevels=2 foo.adoc
+////
+
+{{description}}
+
+== Installation
+source code tarball download:
+    
+        # [aria2c --check-certificate=false | wget --no-check-certificate | curl -kOL]
+        FETCHCMD='aria2c --check-certificate=false'
+        $FETCHCMD https://{{repohost}}/{{repoacct}}/{{project}}/[get | archive]/master.zip
+
+version control repository clone:
+        
+        git clone https://{{repohost}}/{{repoacct}}/{{project}}.git
+
+== Usage
+        TODO - fix usage info
+
+== Author/Copyright
+Copyright (c) {{year}} by {{author|default: repoacct}} <{%assign emaildefault = repoacct|append: "-codelab@yahoo.com"%}{{email|default: emaildefault}}>
+
+== License
+Licensed under the {{license}} License. See LICENSE for details.

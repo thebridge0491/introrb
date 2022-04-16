@@ -1,0 +1,71 @@
+
+purpose    : TestA
+description: This is the 1st YAML doc
+say        : Hi
+
+---
+# *** YAML2LOGGING ***
+logging_config:
+  # define all pre config ...
+  pre_config:
+    define_levels:
+      - DEBUG
+      - INFO
+      - PRT
+      - WARN
+      - ERROR
+      - FATAL
+    format_as   : inspect
+    root:
+      level     : WARN
+
+  # define all loggers ...
+  loggers:
+    - name      : root1
+      level     : DEBUG
+      additive  : false
+      trace     : false      
+      appenders:
+        - log_err
+        - log_root 
+
+    - name      : prac
+      level     : INFO 
+      appenders: 
+        - log_prac 
+
+  # define all appenders (incl. layouts)      
+  appenders:
+    - type          : Stderr
+      name          : log_err 
+      level         : DEBUG
+      layout:
+        type        : Basic
+        format_as   : string
+
+    - type          : File
+      name          : log_root
+      level         : DEBUG
+      filename      : 'root.log'
+      truncate      : false
+      layout:
+        type        : Pattern
+        date_method : to_s
+        pattern     : '[%d] %l  %c : %m\n'
+
+    - type          : File
+      name          : log_prac
+      level         : DEBUG
+      filename      : 'prac.log'
+      truncate      : false
+      layout:
+        type        : Pattern
+        date_method : to_s
+        pattern     : '[%d] %l  %c : %m\n'
+  
+---
+purpose    : TestB
+description: This is the last YAML doc
+say        : Bye
+
+# EOF  

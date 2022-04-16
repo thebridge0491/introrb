@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require 'English'
+require 'thor'
+
+require '{{nesteddirs}}/app'
+
+module {{parentcap}}; end
+module {{parentcap}}{{joiner}}{{projectcap}}; end
+
+class {{parentcap}}{{joiner}}{{projectcap}}::Cli < Thor
+  no_commands {
+  #
+  }
+  
+  desc 'main ARGS', 'Main method'
+  option :user, :default => 'World', :aliases => '-u'
+  def main(args = [])
+    {{parentcap}}::{{projectcap}}::App.main(options)
+  end
+end
+
+
+if __FILE__ == $PROGRAM_NAME
+  {{parentcap}}{{joiner}}{{projectcap}}::Cli.start(ARGV)
+  exit 0
+end

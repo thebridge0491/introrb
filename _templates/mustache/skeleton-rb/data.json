@@ -1,4 +1,8 @@
 {
+  "parentregex": "^[a-z][-a-z0-9]+$",
+  "projectregex": "^[a-z][a-z0-9]+$",
+  "separator": "-",
+  "joiner": "::",
   "groupid": false,
   "category": false,
   "parent": "introrb",
@@ -6,14 +10,10 @@
   "project": "util",
   "description": "Utilities sub-package for Ruby Intro examples project.",
   "version": "0.1.0",
-  "separator": "-",
-  "joiner": "::",
-  "parentregex": "^[a-z][-a-z0-9]+$",
-  "projectregex": "^[a-z][a-z0-9]+$",
   
   "repohost": "bitbucket.org",
   "repoacct": "imcomputer",
-  "date": "2013-07-20",
+  "date": "2013-10-01",
   
   "readmeext": ".rst",
   "license": "Apache-2.0",
@@ -30,7 +30,7 @@
       "Unlicense", "Not open source"],
     "buildtool": ["rake", "make"],
     "testfrwk": ["rspec", "minitest", "minitest-spec"],
-    "executable": [false, "yes"],
+    "executable": ["no", "yes"],
     "ffilib": ["none", "ffi", "swig"]
   }
 }

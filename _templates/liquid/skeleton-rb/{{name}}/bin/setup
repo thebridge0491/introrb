@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+set -euo pipefail
+IFS=$'\n\t'
+set -vx
+
+gempaths=`gem environment gempath`:
+PATH=$PATH:`echo $gempaths | sed 's|:|/bin/:|g'`
+GEM_PATH=$gempaths GEM_HOME=$gempaths bundle install

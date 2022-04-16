@@ -1,0 +1,86 @@
+import java.nio.file.*
+
+//println "System.env: " + System.env
+//println "System.properties: " + System.properties
+//System.properties.each{ k, v -> println "$k: $v" }
+
+//----------------------------------------
+def glob_files(String dir) {
+	def items = []
+	Paths.get(dir).toFile().eachFile() { items += it }
+	return items
+}
+
+def run_cmd(String cmd, File dir) {
+	def proc = cmd.execute(null, dir)
+	proc.waitForProcessOutput((Appendable)System.out, System.err)
+	if (0 != proc.exitValue()) {
+		throw new Exception("Command '${cmd}' exited with code: ${proc.exitValue()}")
+	}
+}
+
+def choices = [
+	'readmeext': '{{readmeext|default: '.rst'}}',
+	'license': '{{license|default: 'Apache-2.0'}}',
+	'buildtool': '{{buildtool|default: 'rake'}}',
+	'testfrwk': '{{testfrwk|default: 'rspec'}}',
+	'executable': '{{executable|default: 'no'}}',
+	'ffilib': '{{ffilib|default: 'none'}}'
+	]
+
+def dirX = Paths.get("${System.getProperty('user.dir')}",
+	System.getProperty('toDir', '{{name|default: 'introrb-util'}}')).toFile()
+def nesteddirs = '{{nesteddirs|default: 'introrb/util'}}'
+def parent = '{{parent|default: 'introrb'}}'
+def project = '{{project|default: 'util'}}'
+
+["mkdir -p build", "cp -vfR choices build/", "rm -vfr choices"].each {
+	cmd -> run_cmd(cmd, dirX) }
+
+run_cmd("cp -v build/choices/readme/README${choices['readmeext']} README${choices['readmeext']}", dirX)
+if (Files.exists(Paths.get("build/choices/_parent_readme"))) {
+	run_cmd("cp -v build/choices/_parent_readme/README${choices['readmeext']} build/choices/_parent_init/README${choices['readmeext']}", dirX)
+}
+
+if (choices['license'] in ['Apache-2.0', 'MIT', 'BSD-3-Clause', 'GPL-3.0+', 'ISC', 
+		'Unlicense']) {
+	run_cmd("cp -v build/choices/license/LICENSE_${choices['license']} LICENSE", dirX)
+}
+
+if (Files.exists(Paths.get("${dirX}/build/choices/build_tool")) && (choices['buildtool'] in ['rake', 'make'])) {
+	def files = glob_files("${dirX}/build/choices/build_tool/${choices['buildtool']}")
+	run_cmd("cp -vR ${files.join(' ')} .", dirX)
+} else if (Files.exists(Paths.get("${dirX}/build/choices/build_tool"))) { // default: rake
+	def files = glob_files("${dirX}/build/choices/build_tool/rake")
+	run_cmd("cp -vR ${files.join(' ')} .", dirX)
+}
+
+if (Files.exists(Paths.get("${dirX}/build/choices/testfrwk")) && (choices['testfrwk'] in ['rspec', 'minitest', 'minitest-spec'])) {
+	def files = glob_files("${dirX}/build/choices/testfrwk/${choices['testfrwk']}")
+	run_cmd("cp -vR ${files.join(' ')} .", dirX)
+} else if (Files.exists(Paths.get("${dirX}/build/choices/testfrwk"))) { // default: rspec
+	def files = glob_files("${dirX}/build/choices/testfrwk/rspec")
+	run_cmd("cp -vR ${files.join(' ')} .", dirX)
+}
+
+if (Files.exists(Paths.get("bin")) && (Files.exists(Paths.get("lib/${nesteddirs}")) && ('yes' != choices['executable']))) {
+    run_cmd("rm -vf bin/${parent}_${project} lib/${nesteddirs}/cli.rb lib/${nesteddirs}/app.rb", dirX)
+}
+
+if (Files.exists(Paths.get("${dirX}/build/choices/ffi_lib")) && (choices['ffilib'] in ['ffi', 'swig'])) {
+	def files = glob_files("${dirX}/build/choices/ffi_lib/${choices['ffilib']}")
+	if ('swig' == choices['ffilib']) {
+		run_cmd("cp -vR ${files.join(' ')} ext/", dirX)
+	} else {
+		run_cmd("cp -vR ${files.join(' ')} lib/${nesteddirs}/", dirX)
+	}
+}
+
+if (Files.exists(Paths.get("_templates")) && Files.isDirectory(Paths.get("_templates"))) {
+	def skeletondir = {%if skeletondir%}'{{skeletondir}}' // {%endif%}"${System.env['HOME']}/Templates/liquid/skeleton-rb"
+	def skelParDir = (new File(skeletondir)).parent
+	def scripts = glob_files("${skelParDir}").findAll{f -> 
+		f.path =~ /render_liquid\..*/}
+	run_cmd("mkdir -vp ../_templates/liquid", dirX)
+	run_cmd("cp -vfR ${skeletondir} ${scripts.join(' ')} ../_templates/liquid/", dirX)
+}

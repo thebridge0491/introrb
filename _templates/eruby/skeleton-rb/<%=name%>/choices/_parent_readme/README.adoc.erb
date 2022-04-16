@@ -22,7 +22,7 @@ version control repository clone:
         git clone https://<%=repohost%>/<%=repoacct%>/<%=parent%>.git
 
 == Author/Copyright
-Author: <%=author%> <<%=email%>>
+Author: <%=defined?(author) ? author : repoacct%> <<%=defined?(email) ? email : "#{repoacct}-codelab@yahoo.com"%>>
 
 see sub-package's Author/Copyright
 

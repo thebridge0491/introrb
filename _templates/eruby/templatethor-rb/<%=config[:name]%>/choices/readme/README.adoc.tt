@@ -1,6 +1,6 @@
 = <%=config[:parentcap]%><%=config[:joiner]%><%=config[:projectcap]%>
-:author: <%=config[:author]%>
-:email: <<%=config[:email]%>>
+:author: <%=config.fetch(:author, config[:repoacct])%>
+:email: <<%=config.fetch(:email, "#{config[:repoacct]}-codelab@yahoo.com")%>>
 :revnumber: <%=config[:version]%>
 :description: README for <%=config[:name]%>
 :hardbreaks:
@@ -25,11 +25,13 @@ version control repository clone:
         git clone https://<%=config[:repohost]%>/<%=config[:repoacct]%>/<%=config[:parent]%>.git
 
 build example with make:
-cd <path> ; make [test | spec] gem
+cd <path> ; [GEM_HOME=$HOME/.gem/ruby/X.Y] bundle install
+make [test | spec] gem
 make install
 
 build example with rake:
-cd <path> ; rake [test | spec] gem
+cd <path> ; [GEM_HOME=$HOME/.gem/ruby/X.Y] bundle install
+rake [test | spec] gem
 rake install
 
 == Usage
@@ -49,7 +51,7 @@ or
 <% end %>
 
 == Author/Copyright
-Copyright (c) <%=config[:year]%> by <%=config[:author]%> <<%=config[:email]%>>
+Copyright (c) <%=config[:year]%> by <%=config.fetch(:author, config[:repoacct])%> <<%=config.fetch(:email, "#{config[:repoacct]}-codelab@yahoo.com")%>>
 
 == License
 Licensed under the <%=config[:license]%> License. See LICENSE for details.

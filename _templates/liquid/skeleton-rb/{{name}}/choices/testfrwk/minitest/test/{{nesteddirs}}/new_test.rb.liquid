@@ -1,0 +1,73 @@
+require 'test_helper'
+
+module {{parentcap}}{{joiner}}{{projectcap}}; end
+
+class {{parentcap}}{{joiner}}{{projectcap}}::NewTest < Minitest::Test
+  @@epsilon = 0.001
+  
+  def before_setup
+    # puts 'setup class ...'
+  end
+  
+  def before_teardown
+    # puts '... teardown class'
+  end  
+  
+  def setup
+    # puts 'setup method ...'
+  end
+  
+  def teardown
+    # puts '... teardown method'
+  end
+  
+  def in_epsilon(a, b, tolerance = 0.001)
+    delta = tolerance.abs
+    # (a - delta) <= b && (a + delta) >= b
+    !((a + delta) < b) && !((b + delta) < a)
+  end
+  
+  def test_version_exists
+    refute_nil ::{{parentcap}}{{joiner}}{{projectcap}}::VERSION
+  end
+
+  def test_method
+    expResult, result = 4, 2 * 2
+    assert expResult == result
+  end
+
+  def test_strMethod
+    expResult, result = 'Hello', 'Hello'
+    assert_equal expResult, result
+  end
+
+  def test_dblMethod
+    expResult, result = 4.0, 4.0
+    # assert_in_epsilon expResult, result, expResult * @@epsilon
+    assert in_epsilon(4.0 * @@epsilon, 4.0, 4.0)
+  end
+  
+  def test_failedMethod
+    expResult, result = 5, 2 * 2
+    assert expResult == result
+  end
+  
+  def test_ignoredMethod
+    skip('not implemented yet')
+    flunk
+  end
+  
+  def test_expectedThrow
+    assert_throws(ZeroDivisionError) { 
+	  begin
+	    1/0
+	  rescue ZeroDivisionError => e
+	    throw ZeroDivisionError
+	  end
+	  }
+  end
+  
+  def test_expectedException
+    assert_raises(Exception) { raise Exception }
+  end
+end

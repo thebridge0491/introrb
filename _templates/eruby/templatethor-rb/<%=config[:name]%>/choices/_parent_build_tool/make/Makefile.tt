@@ -5,6 +5,7 @@ help:
 #MAKE = make # (GNU make variants: make (Linux) gmake (FreeBSD)
 
 parent = <%=config[:parent]%>
+version = <%=config[:version]%>
 SUBDIRS = common app
 
 .PHONY: help clean clobber compile spec
@@ -21,24 +22,28 @@ clobber: $(SUBDIRS)
 	-for dirX in $^ ; do $(MAKE) -C $$dirX $@ ; done
 
 #----------------------------------------
-FMTS ?= tar.gz
-distdir = $(parent)-0.1.0
+FMTS ?= tar.gz,zip
+distdir = $(parent)-$(version)
 
-.PHONY: gem uninstall install dist package rubocop yard
-dist package: $(SUBDIRS)
+pkg/$(distdir) :
 	-@mkdir -p pkg/$(distdir) ; cp -f exclude.lst pkg/
 #	#-zip -9 -q --exclude @exclude.lst -r - . | unzip -od pkg/$(distdir) -
 	-tar --format=posix --dereference --exclude-from=exclude.lst -cf - . | tar -xpf - -C pkg/$(distdir)
-	
+
+.PHONY: gem uninstall install dist package rubocop yard
+dist package | pkg/$(distdir): $(SUBDIRS)
 	-@for fmt in `echo $(FMTS) | tr ',' ' '` ; do \
 		case $$fmt in \
+			7z) echo "### pkg/$(distdir).7z ###" ; \
+				rm -f pkg/$(distdir).7z ; \
+				(cd pkg ; 7za a -t7z -mx=9 $(distdir).7z $(distdir)) ;; \
 			zip) echo "### pkg/$(distdir).zip ###" ; \
 				rm -f pkg/$(distdir).zip ; \
 				(cd pkg ; zip -9 -q -r $(distdir).zip $(distdir)) ;; \
-			*) tarext=`echo $$fmt | grep -e '^tar$$' -e '^tar.xz$$' -e '^tar.bz2$$' || echo tar.gz` ; \
+			*) tarext=`echo $$fmt | grep -e '^tar$$' -e '^tar.xz$$' -e '^tar.zst$$' -e '^tar.bz2$$' || echo tar.gz` ; \
 				echo "### pkg/$(distdir).$$tarext ###" ; \
 				rm -f pkg/$(distdir).$$tarext ; \
-				(cd pkg ; tar --posix -L -caf $(distdir).$$tarext $(distdir)) ;; \
+				(cd pkg ; tar --posix -h -caf $(distdir).$$tarext $(distdir)) ;; \
 		esac \
 	done
 	-@rm -r pkg/$(distdir)
